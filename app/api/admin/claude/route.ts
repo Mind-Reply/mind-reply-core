@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { callClaudeWithAllConnectors } from '@/lib/admin/connectors';
-import { verifyAdminAuth } from './auth/route';
 
 export async function POST(req: NextRequest) {
-  if (!verifyAdminAuth(req as any)) {
+  const adminToken = req.headers.get('x-admin-token');
+
+  if (!process.env.ADMIN_SECRET || adminToken !== process.env.ADMIN_SECRET) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -11,7 +12,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const result = await callClaudeWithAllConnectors(message);
-    
+
     return NextResponse.json({
       message: {
         id: crypto.randomUUID(),
