@@ -1,32 +1,46 @@
 // lib/api-client.ts
+
+const BASE = '/api';
+
 export const apiClient = {
-  async getStripeData() {
-    const res = await fetch('/api/integrations/stripe');
+  async get(endpoint: string) {
+    const res = await fetch(`${BASE}${endpoint}`);
+    if (!res.ok) throw new Error(`GET ${endpoint} failed`);
     return res.json();
+  },
+
+  async post(endpoint: string, body: any) {
+    const res = await fetch(`${BASE}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error(`POST ${endpoint} failed`);
+    return res.json();
+  },
+
+  async getStripeData() {
+    return this.get('/integrations/stripe');
   },
 
   async getGmailData() {
-    const res = await fetch('/api/integrations/gmail');
-    return res.json();
+    return this.get('/integrations/gmail');
   },
 
   async getYoutubeData() {
-    const res = await fetch('/api/integrations/youtube');
-    return res.json();
+    return this.get('/integrations/youtube');
   },
 
   async getAnalytics() {
-    const res = await fetch('/api/integrations/analytics');
-    return res.json();
+    return this.get('/analytics');
+  },
+
+  async getQueue() {
+    return this.get('/queue');
   },
 
   async sendChatMessage(message: string) {
-    const res = await fetch('/api/admin/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message }),
-    });
-    return res.json();
+    return this.post('/admin/chat', { message });
   },
 
   async subscribeToUpdates(callback: (data: any) => void) {
