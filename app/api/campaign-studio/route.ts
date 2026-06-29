@@ -91,7 +91,7 @@ export async function POST(request: Request) {
 
     const campaignData = parseCampaignResult(JSON.parse(extractResponseText(textResponse)));
 
-    const generatedImages = await Promise.all(
+    const imageJobs = await Promise.allSettled(
       campaignData.imagePrompts.map(async (prompt) => {
         const imageResponse = await postJson<Record<string, unknown>>('https://api.openai.com/v1/images/generations', {
           model: imageModel,
@@ -108,9 +108,18 @@ export async function POST(request: Request) {
       }),
     );
 
+    const generatedImages = imageJobs
+      .filter((result): result is PromiseFulfilledResult<string> => result.status === 'fulfilled')
+      .map((result) => result.value);
+
+    const imageWarnings = imageJobs
+      .filter((result): result is PromiseRejectedResult => result.status === 'rejected')
+      .map((result) => result.reason instanceof Error ? result.reason.message : 'Image generation failed.');
+
     return Response.json({
       ...campaignData,
       generatedImages,
+      imageWarnings,
       models: {
         text: textModel,
         image: imageModel,
