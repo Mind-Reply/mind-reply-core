@@ -147,6 +147,46 @@ Rules applied to all mappings:
 | Approval requirement | None for evidence collection itself; evidence standards changes require owner approval. |
 | Evidence required | The evidence itself, indexed in GLOBAL_EVIDENCE_REGISTRY.md / cockpit. |
 
+### 14. "secure this chat"
+
+| Stage | Translation |
+|---|---|
+| Owner raw intent | "Secure this chat" — don't lose this context; make it durable. |
+| Safe execution translation | Persist owner context, operating rules, and session state into private repo files. No secret values stored in the repo. NOT: encrypting or hiding the conversation from the platform. |
+| Agent task | Save/update owner context docs and session checkpoints in the private repo so continuity survives resets. |
+| Approval requirement | None for saving context; owner approves changes to operating rules. |
+| Evidence required | Committed file paths + commit hashes. |
+
+### 15. "make it premium"
+
+| Stage | Translation |
+|---|---|
+| Owner raw intent | "Make it premium" — nothing generic, everything intentional. |
+| Safe execution translation | Dark, sharp, non-generic visual identity: clean typography, purposeful whitespace, no stock-photo energy, no commodity SaaS aesthetics. NOT: over-engineering or adding expensive features. |
+| Agent task | Apply the premium design system across surfaces; audit for generic patterns and replace them. |
+| Approval requirement | Owner approves the visual direction once. |
+| Evidence required | Before/after screenshots, live URLs. |
+
+### 16. "ship it"
+
+| Stage | Translation |
+|---|---|
+| Owner raw intent | "Ship it" — get it live, now. |
+| Safe execution translation | Open PR → passing build → smoke test → preview deploy → production only after validation. NOT: pushing to production without checks. |
+| Agent task | Create PR, verify CI, deploy to Vercel preview, run smoke test, queue production deploy for approval if customer-facing. |
+| Approval requirement | Owner approval for customer-facing production deploys. |
+| Evidence required | PR link, CI results, preview URL, smoke-test output. |
+
+### 17. "connect everything"
+
+| Stage | Translation |
+|---|---|
+| Owner raw intent | "Connect everything" — one unified ops engine across all tools. |
+| Safe execution translation | Map GitHub, Vercel, n8n, Stripe, and other integrations into one ops engine with least-privilege access; each connector has a defined scope and documented purpose. NOT: granting all tools full access to everything. |
+| Agent task | Configure integrations with minimal scopes; document each connector; surface connection status in the Owner Cockpit. |
+| Approval requirement | Owner approves each new integration and its scope. |
+| Evidence required | Integration status in cockpit, scope documentation, connection test logs. |
+
 ---
 
 ## Extending this dictionary
