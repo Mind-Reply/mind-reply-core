@@ -16,22 +16,15 @@ Labels:
 
 ## 2. Active — open PRs (keep)
 
-Sorted by most recent activity.
-
 | Branch | Last commit | Open PR |
 |---|---|---|
-| `agent/live-check-2026-07-02` | 2026-07-02 | #70 |
-| `devin/1782999561-owner-intent-dictionary` | 2026-07-02 | #69 |
-| `agent/access-request` | 2026-07-02 | #67 |
-| `devin/1782998143-owner-intent-dictionary` | 2026-07-02 | #66 (duplicate of #69 — close one) |
-| `dependabot/npm_and_yarn/npm_and_yarn-148ff71af0` | 2026-07-02 | #65 |
-| `devin/1782991975-improve-error-handling` | 2026-07-02 | #59 |
+| `agent/owner-cockpit-pwa` | 2026-07-02 | #72 |
 
-Note: #66 and #69 are duplicate PRs adding the same owner-intent dictionary docs. Recommendation: keep #69 (newer), close #66 and delete its branch.
+As of the initial 2026-07-02 audit, six branches had open PRs (#59, #65, #66, #67, #69, #70). All were merged or closed later that day and their branches deleted; #66 was merged before it could be closed as a duplicate of #69.
 
-## 3. Merged — safe to delete (0 commits ahead of main)
+## 3. Merged — deleted 2026-07-02 (were 0 commits ahead of main)
 
-Sorted by last commit date, newest first.
+Sorted by last commit date, newest first. Historical record from the audit; all branches below are removed from the remote.
 
 | Branch | Last commit | Behind main |
 |---|---|---|
@@ -42,11 +35,11 @@ Sorted by last commit date, newest first.
 | `v0/angellllkr-eng-7afd2101` | 2026-06-26 | 332 |
 | `Profile-file-merge` | 2026-06-23 | 34 |
 
-Action: `git push origin --delete <branch>` for each. No history is lost — all commits are in `main`.
+No history was lost — all commits are in `main`.
 
-## 4. Stale — unmerged, inactive (owner decision required)
+## 4. Stale — unmerged, deleted 2026-07-02 with owner approval
 
-All are 343 commits behind `main` and untouched since mid-June. Their "ahead" counts are mostly divergent history, not salvageable features on top of current `main`.
+Historical record from the audit; all branches below are removed from the remote. All were 343 commits behind `main` and untouched since mid-June. Their "ahead" counts are mostly divergent history, not salvageable features on top of current `main`.
 
 | Branch | Last commit | Ahead / Behind | Recommendation |
 |---|---|---|---|
