@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import { CampaignStudioClient } from './components/campaign-studio/CampaignStudioClient';
+import { CampaignStudioFront } from './components/campaign-studio/CampaignStudioFront';
 
 export const metadata: Metadata = {
-  title: 'Campaign Concept Studio',
-  description: 'A full-stack campaign concept studio for marketing teams powered by the current OpenAI Responses API and image generation.',
+  title: 'MindReply Studio',
+  description: 'A campaign production studio for briefs, copy angles, launch checklists, and visual direction.',
 };
 
 export default function HomePage() {
-  return <CampaignStudioClient />;
+  return <CampaignStudioFront />;
 }
