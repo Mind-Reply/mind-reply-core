@@ -78,5 +78,8 @@ Disallowed going forward: bare descriptive names (`Profile-file-merge`), codespa
 | Date | Action | Result |
 |---|---|---|
 | 2026-07-02 | Audit completed, registry created | This document |
-| — | Deletion of merged branches | PENDING OWNER APPROVAL |
-| — | Deletion of stale unmerged branches | PENDING OWNER APPROVAL |
+| 2026-07-02 | Owner approved deletion of merged + stale branches | Approved via session Q&A |
+| 2026-07-02 | Deletion of 6 merged branches | DONE — already removed on remote (verified absent) |
+| 2026-07-02 | Deletion of 7 stale unmerged branches (codex/*, codespace-*, v0/...bc50cd09) | DONE — already removed on remote (verified absent) |
+| 2026-07-02 | Duplicate PR #66 | Already merged before it could be closed; #69 also closed. No action possible. |
+| 2026-07-02 | Post-cleanup state | Remote branches: `main`, `agent/owner-cockpit-pwa` (open PR #72) |
