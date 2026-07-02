@@ -79,6 +79,14 @@ required for a verified launch.
 execution rules, the agent must not create fake accounts or automate human
 identity. These remain owner-driven with explicit approval.
 
+Only after this can execution mode proceed beyond planning and file scaffolding.
+
+## Owner Cockpit PWA (2026-07-02)
+
+- Owner-only auth: no auth provider configured for cockpit routes. Needed: Clerk (already a dependency) or Supabase Auth credentials, plus an owner allowlist. Until then, `/cockpit/*` is a placeholder-protected surface and must not be treated as private.
+- Vercel: preview deployment relies on the repo's existing Vercel integration; account rate limits currently affect checks. Needed for production deploy: Vercel project access + owner approval.
+- DNS: mind-reply.com and subdomains — DNS ACCESS REQUIRED.
+
 ## What can proceed WITHOUT any new access
 - Repo cleanup, `.gitignore`, doc consolidation, code fixes (branch + PR)
 - Site-factory *scaffolding* (manifests, templates, generator scripts) — without
