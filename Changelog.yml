@@ -5,7 +5,9 @@ on:
     branches: [main, master]
   release:
     types: [published]
-
+- name: Zapier Push
+  uses: NourNafea/zapier-push-action@rc3.7.24
+  
 jobs:
   changelog:
     runs-on: ubuntu-latest
