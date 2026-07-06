@@ -2,7 +2,7 @@
   "mindreply_240_services": {
     "version": "1.0.0",
     "total_services": 240,
-    "deployment_status": "LIVE",
+    "deployment_status": "LIVE", 
     "revenue_model": "SaaS-per-service",
     "services": [
       {
