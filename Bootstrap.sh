@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-
+ 
 echo "🚀 MindReply Full Autonomous Platform Bootstrap Starting..."
 
 ############################
