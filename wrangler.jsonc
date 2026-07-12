@@ -1,5 +1,5 @@
 {
   "name": "mindreply",
-  "pages_build_output_dir": ".vercel/output/static",
-  ...
+  ...someConfig,
+  "pages_build_output_dir": ".vercel/output/static"
 }
