@@ -1,34 +1,44 @@
-# Build stage
-FROM node:22-alpine AS builder
+# Multi-stage build for TanStack Start + Express backend
+# Stage 1: Build frontend
+FROM node:20-alpine AS frontend-builder
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY apps/backend/package*.json ./apps/backend/
-COPY apps/backend/tsconfig.json ./apps/backend/
+# Copy frontend files
+COPY package.json pnpm-lock.yaml* yarn.lock* package-lock.json* ./
+RUN npm install --frozen-lockfile || npm install
 
-RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
-RUN cd apps/backend && if [ -f package-lock.json ]; then npm ci; else npm install; fi
+# Copy source
+COPY . .
 
-COPY apps/backend/src ./apps/backend/src
+# Build frontend with Vite
+RUN npm run build
 
-RUN cd apps/backend && npm run build
-
-# Runtime stage
-FROM node:22-alpine
+# Stage 2: Runtime - backend + SSR frontend
+FROM node:20-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/apps/backend/node_modules ./apps/backend/node_modules
-COPY --from=builder /app/apps/backend/dist ./apps/backend/dist
+# Install dumb-init for proper signal handling
+RUN apk add --no-cache dumb-init
 
-COPY apps/backend/package.json ./apps/backend/
+# Copy built frontend and dependencies from builder
+COPY --from=frontend-builder /app/node_modules ./node_modules
+COPY --from=frontend-builder /app/dist ./dist
+COPY --from=frontend-builder /app/package.json ./package.json
 
-EXPOSE 3001
+# Copy backend source (Express server + MCP)
+COPY server/ ./server/
 
-WORKDIR /app/apps/backend
-
+# Environment
 ENV NODE_ENV=production
+ENV PORT=3000
 
-CMD ["npm", "run", "start"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
+
+EXPOSE 3000
+
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["node", "server/index.js"]

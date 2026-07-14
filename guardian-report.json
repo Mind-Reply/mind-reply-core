@@ -1,0 +1,138 @@
+{
+  "generated_at": "2026-07-10T02:13:37.024038+00:00",
+  "config_file": "guardian-config.yml",
+  "yaml_config_loaded": true,
+  "skipped_files": [
+    "guardian-config.yml",
+    "guardian-report.json",
+    "guardian-report.md",
+    "scripts/guardian_scan.py"
+  ],
+  "high": 12,
+  "medium": 7,
+  "info": 1,
+  "total": 20,
+  "decision": "BLOCK_PRODUCTION",
+  "findings": [
+    {
+      "severity": "medium",
+      "file": ".env.example",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "info",
+      "file": ".env.example",
+      "type": "placeholder",
+      "message": "Placeholder/default value found."
+    },
+    {
+      "severity": "high",
+      "file": "CLOUDFLARE_DEPLOYMENT_COMPLETE.md",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "high",
+      "file": "COMPLETE_DELIVERABLES.md",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "high",
+      "file": "COMPLETE_SYSTEM_SUMMARY.md",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "medium",
+      "file": "COMPLETE_SYSTEM_SUMMARY.md",
+      "type": "placeholder",
+      "message": "Placeholder/default value found."
+    },
+    {
+      "severity": "high",
+      "file": "DELIVERABLES.md",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "medium",
+      "file": "DEPLOYMENT.md",
+      "type": "placeholder",
+      "message": "Placeholder/default value found."
+    },
+    {
+      "severity": "high",
+      "file": "docker-compose.yml",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "high",
+      "file": "QUICKSTART.md",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "medium",
+      "file": "QUICKSTART.md",
+      "type": "placeholder",
+      "message": "Placeholder/default value found."
+    },
+    {
+      "severity": "medium",
+      "file": "QUICKSTART.md",
+      "type": "dangerous_command",
+      "message": "Dangerous command text found: docker compose down -v"
+    },
+    {
+      "severity": "high",
+      "file": "README.md",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "medium",
+      "file": "README.md",
+      "type": "placeholder",
+      "message": "Placeholder/default value found."
+    },
+    {
+      "severity": "high",
+      "file": "SOCIAL_DEPLOYMENT_PARALLEL.md",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "high",
+      "file": "START_HERE.md",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "medium",
+      "file": "START_HERE.md",
+      "type": "placeholder",
+      "message": "Placeholder/default value found."
+    },
+    {
+      "severity": "high",
+      "file": "STRATEGY_APPLIED.md",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "high",
+      "file": "server/index-enhanced.js",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    },
+    {
+      "severity": "high",
+      "file": "server/index.js",
+      "type": "possible_secret_assignment",
+      "message": "Credential-like text found. Review before production."
+    }
+  ]
+}
