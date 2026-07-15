@@ -29,3 +29,4 @@ body {
 
 .glow-cyan {
   @apply shadow-lg shadow-cyan-500/20;
+}
