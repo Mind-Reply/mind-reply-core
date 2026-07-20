@@ -1,7 +1,10 @@
 {
   "version": 2,
-  "framework": "nextjs",
-  "buildCommand": "npm run build --prefix apps/web",
-  "installCommand": "npm install",
-  "outputDirectory": "apps/web/.next"
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install",
+  "outputDirectory": "dist",
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
 }
