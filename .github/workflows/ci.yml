@@ -1,35 +1,52 @@
-name: CI
+name: Decision Layer CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
-
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
+    branches: [main]
 
 jobs:
-  build:
+  verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node 22
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: npm
+          node-version: "20"
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install
+        run: npm install --no-audit --fund=false --progress=false
 
-      - name: Type check and build
-        run: npm run ci
+      - name: Verify Vercel build guard
+        run: npm run vercel:ignore:verify
 
-      - name: Tests
-        run: npm test
+      - name: Verify decision layer contract
+        run: npx tsx scripts/verify-decision-layer.ts
+
+      - name: Verify production version contract
+        run: npx tsx scripts/verify-production-version-contract.ts
+
+      - name: Verify revenue i18n SEO surface
+        run: npx tsx scripts/verify-revenue-i18n-seo.ts
+
+      - name: Verify package delivery proof
+        run: npx tsx scripts/verify-package-delivery-proof.ts
+
+      - name: Verify invoice-first close path
+        run: npx tsx scripts/verify-invoice-first-close.ts
+
+      - name: Verify MRagent MCP
+        run: npm run mcp:verify
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Python backend tests
+        run: python -m unittest discover src

@@ -1,0 +1,12 @@
+MindReply should feel:
+- exact
+- private
+- polished
+- behaviourally aware
+- commercially mature
+- elegant without theatre
+Never:
+- noisy
+- generic
+- overhyped
+- long-winded

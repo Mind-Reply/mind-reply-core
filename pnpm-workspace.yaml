@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: true
+  sharp: true
+minimumReleaseAgeExclude:
+  - '@anthropic-ai/sdk@0.112.4'
+  - recharts@3.10.0

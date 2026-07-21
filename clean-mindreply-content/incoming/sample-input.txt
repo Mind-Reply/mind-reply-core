@@ -1,0 +1,3 @@
+MindReply sample intake:
+This is a test content item for transformation, approval, and reporting.
+Keep it elegant, compact, clear, and useful.

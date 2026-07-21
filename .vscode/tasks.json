@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "MindReply: web dev",
+      "type": "shell",
+      "command": "npm.cmd run dev",
+      "options": { "cwd": "C:\\Users\\ANGEL\\Desktop\\MindReply_workplace\\clean_build\\MindReply" }
+    },
+    {
+      "label": "MindReply: n8n up",
+      "type": "shell",
+      "command": "docker compose -f .\\docker-compose.yml --env-file .\\.env up -d",
+      "options": { "cwd": "C:\\Users\\ANGEL\\Desktop\\MindReply_workplace\\clean_build\\n8n" }
+    }
+  ]
+}

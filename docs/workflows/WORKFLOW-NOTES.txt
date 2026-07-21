@@ -1,0 +1,11 @@
+Twice-daily reporting:
+- morning summary
+- evening summary
+Approval model:
+- approve all with notes
+- reject all with notes
+Content lane:
+- incoming -> approved/rejected -> published -> archive
+Secdev lane:
+- accounting-team isolated
+- audit logs retained

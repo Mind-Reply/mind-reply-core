@@ -1,0 +1,24 @@
+﻿WORKFLOW 5 — MR — Publish To Site / API
+
+Purpose:
+Take an approved item and send it to the site/API layer for final publication.
+
+Nodes:
+1. Trigger: parent workflow, webhook, or schedule
+2. Read approved item / receive JSON payload
+3. HTTP Request: POST to local or live publish endpoint
+4. IF: API success or failure
+5A. Success: write/move item to clean-mindreply-content\published
+5B. Failure: send to Global Error Handler + Slack/email alert
+6. Optional: Respond to Webhook with receipt
+
+Payload shape:
+{
+  "title": "item title",
+  "summary": "approved summary",
+  "signature": "MRproduction",
+  "footerMarks": ["MRdesign", "MRproduction", "MRpresent", "MRglow", "MRteam", "MRmanager"]
+}
+
+Signature:
+MRserved or MRproduction

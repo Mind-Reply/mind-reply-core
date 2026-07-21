@@ -1,46 +1,75 @@
-import { NextRequest, NextResponse } from 'next/server'
-import crypto from 'crypto'
+import { NextRequest, NextResponse } from "next/server";
+import { isRedirectedPublicPath } from "@/lib/decision-layer";
+import { localeFromPath, stripLocaleFromPath } from "@/lib/locales";
 
-function verifyAdminToken(token: string): boolean {
-  const secret = process.env.ADMIN_TOKEN_SECRET || process.env.ADMIN_PASSWORD
-  if (!secret) return false
+const allowedApiPaths = new Set([
+  "/api/health",
+  "/api/intake",
+  "/api/conversion",
+  "/api/agent",
+  "/api/mcp",
+  "/api/package-request",
+  "/api/geo-locale",
+  "/api/translate",
+  "/api/version",
+]);
 
-  const parts = token.split('.')
-  if (parts.length !== 2) return false
-
-  try {
-    const payload = Buffer.from(parts[0], 'base64').toString()
-    const expectedSig = crypto.createHmac('sha256', secret).update(payload).digest('hex')
-    if (!crypto.timingSafeEqual(Buffer.from(parts[1]), Buffer.from(expectedSig))) return false
-
-    const parsed = JSON.parse(payload)
-    if (!parsed.admin || (parsed.exp && parsed.exp < Date.now())) return false
-    return true
-  } catch {
-    return false
-  }
-}
-
-export function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith('/api/admin/auth')) {
-    return NextResponse.next()
+export default function middleware(req: NextRequest) {
+  const host = req.headers.get("host")?.toLowerCase();
+  if (host === "mind-reply.com") {
+    const url = req.nextUrl.clone();
+    url.hostname = "www.mind-reply.com";
+    return NextResponse.redirect(url, 308);
   }
 
-  if (
-    request.nextUrl.pathname.startsWith('/api/admin') ||
-    request.nextUrl.pathname.startsWith('/api/director') ||
-    request.nextUrl.pathname.startsWith('/api/backend/connectors')
-  ) {
-    const authHeader = request.headers.get('authorization')
-    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null
-    if (!token || !verifyAdminToken(token)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  const prefixedLocale = localeFromPath(req.nextUrl.pathname);
+  if (prefixedLocale) {
+    const strippedPath = stripLocaleFromPath(req.nextUrl.pathname);
+    if (isRedirectedPublicPath(strippedPath)) {
+      const url = req.nextUrl.clone();
+      url.pathname = prefixedLocale === "en" ? "/" : `/${prefixedLocale}`;
+      url.search = "";
+      return NextResponse.redirect(url, 307);
     }
+
+    const rewriteUrl = req.nextUrl.clone();
+    rewriteUrl.pathname = strippedPath;
+    rewriteUrl.searchParams.set("lang", prefixedLocale);
+    const response = NextResponse.rewrite(rewriteUrl);
+    response.headers.set("x-mindreply-locale", prefixedLocale);
+    response.cookies.set("mindreply-locale", prefixedLocale, {
+      path: "/",
+      sameSite: "lax",
+      secure: true,
+      maxAge: 60 * 60 * 24 * 365,
+    });
+    return response;
   }
 
-  return NextResponse.next()
+  if (isRedirectedPublicPath(req.nextUrl.pathname)) {
+    const url = req.nextUrl.clone();
+    url.pathname = "/";
+    url.search = "";
+    return NextResponse.redirect(url, 307);
+  }
+
+  if (req.nextUrl.pathname.startsWith("/api/") && !allowedApiPaths.has(req.nextUrl.pathname)) {
+    return NextResponse.json(
+      {
+        status: "retired",
+        service: "mindreply",
+        message: "This surface has moved into the decision layer.",
+      },
+      { status: 410 },
+    );
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/api/admin/:path*', '/api/director/:path*', '/api/backend/connectors/:path*'],
-}
+  matcher: [
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/(api|trpc)(.*)",
+  ],
+};

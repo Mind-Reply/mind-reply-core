@@ -1,0 +1,192 @@
+artifact: mragent-monitor-status
+file: mragent-monitor-status.json
+producer: scripts/mragent-monitor-report.mjs
+workflow: .github/workflows/mragent-monitor.yml
+verification_workflow: .github/workflows/mragent-verify.yml
+vercel_guard:
+  guard: scripts/vercel-ignore-build.mjs
+  workflow: .github/workflows/vercel-guard-verify.yml
+  command: node scripts/vercel-ignore-build.mjs --self-test
+  purpose: Fast GitHub-only check for Vercel quota guard and automation-only skip behavior.
+production_deploy_recovery:
+  workflow: .github/workflows/manual-vercel-production.yml
+  canonical_project: mindreply
+  canonical_project_id: prj_EuO1lFvbwoFSdDxBlezNyXG8eVV3
+  non_production_storage_project: mind-reply
+  required_aliases:
+    - https://www.mind-reply.com
+    - https://mind-reply.com
+  required_steps:
+    - capture Vercel deployment URL
+    - assign public production aliases
+    - verify live production reachability
+    - run npm run verify:live-revenue
+    - attach live proof before owner email and Slack delivery
+  rule: Production is not ready until the public custom domain serves the verified revenue/privacy surface.
+live_revenue_surface:
+  artifact: mindreply-live-revenue-surface.json
+  producer: scripts/verify-live-revenue-surface.mjs
+  command: npm run verify:live-revenue
+  site_env: MINDREPLY_LIVE_VERIFY_URL
+  strict_sha_env: MINDREPLY_REQUIRE_LIVE_SHA_MATCH
+  expected_sha_env: MINDREPLY_EXPECTED_SHA
+  required_checks:
+    - home-reachable
+    - contact-reachable
+    - version-current
+    - version-sha-current when strict SHA match is enabled
+    - health-reachable
+    - package-api-mounted
+    - relief-promise
+    - website-completion-package
+    - package-price
+    - public-mailbox
+    - no-personal-gmail
+    - contact-assisted-close
+  owner_delivery_rule: When MINDREPLY_REPORT_REQUIRE_LIVE_PROOF is true, email and Slack delivery stay blocked until this artifact is attached to the owner report.
+preview_capture_workflow: .github/workflows/mragent-preview-capture.yml
+preview_capture_script: scripts/mragent-preview-capture.mjs
+growth_pulse:
+  artifact: mragent-growth-pulse
+  file: mragent-growth-pulse.json
+  producer: scripts/mragent-growth-pulse.mjs
+  workflow: .github/workflows/mragent-growth-pulse.yml
+  monitor_workflow: .github/workflows/mragent-monitor.yml
+  cadence: every 15 minutes, weekly monday, and manual workflow_dispatch
+  purpose: Summarize active promise, search lane, ad tests, copy alignment, preview state, and next visibility task.
+short_digest:
+  artifact_files:
+    - mragent-short-digest.json
+    - mragent-short-digest.md
+  producer: scripts/mragent-short-digest.mjs
+  workflow: .github/workflows/mragent-monitor.yml
+  cadence: every 15 minutes and manual workflow_dispatch
+  purpose: Condense production status and growth pulse into one tiny Slack/Outlook-ready report.
+cadence: every 15 minutes and manual workflow_dispatch
+purpose: Give humans and future personal-pack automation the same compact state snapshot.
+fields:
+  generatedAt: ISO timestamp for the monitor run.
+  siteUrl: Production or override URL checked by the run.
+  run:
+    repository: GitHub owner/repo for the run.
+    ref: Full Git ref or local fallback.
+    branch: Branch name or local fallback.
+    sha: Commit SHA or local fallback.
+    runId: GitHub Actions run id or local fallback.
+    runAttempt: GitHub Actions attempt number or local fallback.
+    runUrl: GitHub Actions run URL when available.
+  commitStatus:
+    state: Combined GitHub commit status state, or local/error fallback.
+    signal: Short status signal, prioritizing the active Vercel context when present.
+    deployment:
+      primary: Active Vercel status context, prioritizing mind-reply.
+      legacy: Legacy Vercel context, usually mindreply when present.
+      quotaLimited: Vercel context whose target URL indicates build-rate-limit or upgradeToPro.
+      all: All Vercel status contexts seen on the commit.
+    statuses: Individual commit status contexts with state, target URL, and description.
+  productionVersion:
+    liveSha: Commit SHA reported by /api/version on the checked site.
+    expectedSha: GitHub Actions SHA for the monitor run when available.
+    matchesRun: true, false, or null when unavailable.
+    data: Full /api/version JSON payload.
+  liveRevenueSurface:
+    status: pass or fail from scripts/verify-live-revenue-surface.mjs.
+    expectedSha: Expected production SHA when strict matching is enabled.
+    liveSha: SHA reported by the live /api/version route.
+    failed: Failed live production checks.
+    checks: Live revenue, privacy, route, and assisted-close checks.
+    surfaces: Per-route response status and JSON metadata.
+  functionalChecks:
+    agentApi:
+      ok: true when /api/agent returns reply, receipt, risk, and one action.
+      signal: Short outcome for the preferred API.
+    intakeApi:
+      ok: true when /api/intake returns synthesis, receipt, risk, and one action.
+      signal: Short outcome for the fallback decision route.
+    decisionApi: live when either preferred or fallback decision route works.
+  summary:
+    coreAgent: live or check.
+    decisionApi: live or not live.
+    preferredAgentApi: live or not live.
+    fallbackIntakeApi: live or not live.
+    mcpApp: live or not live.
+    health: live or not live.
+    version: live or not live.
+    discoveryAssets: live or not live.
+    personalPack: ready or check.
+    currentBlocker: Current deploy, stale production, API, or platform blocker in plain language.
+    opinion: Short operating opinion for the pass.
+    nextAction: The next recommended move.
+  surfaces: Per-URL status, method, latency, signal, and JSON data when available, including agent-api, intake-api, version, primary_mcp, and fallback_mcp checks.
+  packSources: Required personal-pack source files and whether each exists, including slack-api, vercel-build-limit, verification-runbook, preview-capture-script, preview-capture-workflow, visibility-plan, search-intents, live-copy-sync, preview-qa, preview-results, and ad-copy-tests.
+connection_urls:
+  agent: https://www.mind-reply.com/agent
+  preferred_agent_api: https://www.mind-reply.com/api/agent
+  fallback_intake_api: https://www.mind-reply.com/api/intake
+  package_request_api: https://www.mind-reply.com/api/package-request
+  version: https://www.mind-reply.com/api/version
+  primary_mcp: https://www.mind-reply.com/mcp
+  fallback_mcp: https://www.mind-reply.com/api/mcp
+visibility:
+  plan: site/growth/visibility-plan.yml
+  positioning: site/growth/positioning.yml
+  search_intents: site/growth/search-intents.yml
+  live_copy_sync: site/growth/live-copy-sync.yml
+  preview_qa: site/growth/preview-qa.yml
+  preview_results: site/growth/preview-results.yml
+  growth_pulse: scripts/mragent-growth-pulse.mjs
+  preview_capture:
+    monitor_labels:
+      - preview-capture-script
+      - preview-capture-workflow
+    workflow: .github/workflows/mragent-preview-capture.yml
+    script: scripts/mragent-preview-capture.mjs
+    artifacts:
+      - mragent-preview-results/agent-desktop.png
+      - mragent-preview-results/agent-mobile.png
+      - mragent-preview-results/preview-results.json
+  ads: site/ads/messaging.yml
+  ad_copy_tests: site/ads/copy-tests.yml
+  report_fields:
+    - active_deployment
+    - legacy_quota_context
+    - production_version
+    - live_revenue_surface
+    - functional_api_checks
+    - growth_pulse
+    - short_digest
+    - vercel_guard
+    - production_surfaces
+    - search_assets
+    - ad_message_sync
+    - next_visibility_task
+verification:
+  runbook: site/automation/verification-runbook.yml
+  commands:
+    - node scripts/vercel-ignore-build.mjs --self-test
+    - npm run decision:verify
+    - npm run mcp:verify
+    - npm run typecheck
+    - npm run build
+    - npm run verify:live-revenue
+  rule: Verification runs in GitHub Actions and is separate from Vercel publishing.
+slack_handoff:
+  config: site/automation/slack-api.yml
+  field_id_ref: owner_supplied_private_field_id
+  dm_invite_status_env: MINDREPLY_SLACK_DM_INVITE_AVAILABLE
+  raw_invite_url_rule: never commit, print, or attach private Slack invite URLs in repo files, reports, workflow YAML, or artifacts.
+  rule: Use only after Slack connector access and a destination channel or DM are available; DM invite context is onboarding-only and cannot send messages.
+vercel_handoff:
+  runbook: site/automation/vercel-build-limit-runbook.yml
+  rule: Treat upgradeToPro=build-rate-limit as account quota until build logs prove a code failure.
+uses:
+  - GitHub Actions summary
+  - private owner email report after live proof is attached
+  - Slack webhook report after live proof is attached
+  - future Slack report handoff after workspace channel or owner DM is connected
+  - future Outlook digest handoff after mailbox target is named
+  - personal pack status checks
+  - manual preview capture artifacts from MRagent Preview Capture
+  - growth pulse artifact for SEO and ad message alignment in every 15-minute monitor
+  - short digest artifact for fast status updates
+  - fast Vercel guard verification for quota-control changes

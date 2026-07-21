@@ -11,8 +11,6 @@ export async function startSubscriptionCheckout(planId: string) {
   }
 
   const session = await getStripe().checkout.sessions.create({
-    ui_mode: 'embedded',
-    redirect_on_completion: 'never',
     mode: 'subscription',
     line_items: [
       {
@@ -28,7 +26,7 @@ export async function startSubscriptionCheckout(planId: string) {
         quantity: 1,
       },
     ],
-  })
+  } as any)
 
   return session.client_secret
 }

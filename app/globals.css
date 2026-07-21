@@ -1,0 +1,124 @@
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+@source "../node_modules/streamdown/dist/*.js";
+@source "../node_modules/@streamdown/code/dist/*.js";
+
+:root {
+  --font-inter: 'Inter', sans-serif;
+  --font-playfair: 'Playfair Display', serif;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  background: hsl(40 20% 96%);
+  color: hsl(220 45% 13%);
+  top: 0 !important;
+}
+
+@theme {
+  --color-mr-cream-light: hsl(40 20% 96%);
+}
+
+.font-serif {
+  font-family: var(--font-playfair);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(to right, hsl(43 80% 60%), hsl(43 90% 70%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.locale-assist-shell,
+.locale-assist-shell * {
+  min-width: 0;
+}
+
+.locale-assist-copy {
+  text-wrap: balance;
+}
+
+#mindreply-google-translate,
+.goog-te-banner-frame,
+.goog-te-gadget,
+.goog-logo-link,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.skiptranslate iframe {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.skiptranslate {
+  display: none !important;
+}
+
+@media (max-width: 640px) {
+  h1,
+  h2,
+  h3,
+  p,
+  a,
+  button,
+  span,
+  select {
+    overflow-wrap: anywhere;
+  }
+
+  main section {
+    scroll-margin-top: 1rem;
+  }
+
+  .min-h-\[43rem\] {
+    min-height: 34rem !important;
+  }
+
+  .locale-assist-shell {
+    padding-block: 0.65rem;
+    padding-inline: 0.875rem;
+  }
+
+  .locale-assist-inner {
+    gap: 0.55rem;
+  }
+
+  .locale-assist-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .locale-assist-controls label {
+    letter-spacing: 0.08em;
+  }
+
+  .locale-assist-controls select {
+    max-width: 9.4rem;
+  }
+
+  .locale-chip {
+    max-width: 100%;
+  }
+
+  .priority-chip {
+    display: none;
+  }
+
+  .market-chip {
+    grid-column: 1 / -1;
+    width: fit-content;
+    max-width: 100%;
+    opacity: 0.78;
+  }
+
+  .locale-assist-copy {
+    font-size: 0.68rem;
+    line-height: 1.35rem;
+    opacity: 0.9;
+  }
+}

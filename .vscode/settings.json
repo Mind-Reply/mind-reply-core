@@ -1,0 +1,7 @@
+{
+  "python.defaultInterpreterPath": "C:\\Users\\ANGEL\\Desktop\\MindReply_workplace\\clean_build\\venvs\\.venv-automation\\Scripts\\python.exe",
+  "python.terminal.activateEnvironment": true,
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "files.autoSave": "afterDelay",
+  "editor.formatOnSave": true
+}

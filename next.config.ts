@@ -1,26 +1,42 @@
 import type { NextConfig } from "next";
 
-const config: NextConfig = {
-  reactStrictMode: true,
-  compress: true,
-  productionBrowserSourceMaps: false,
-  rewrites: async () => {
-    // Only proxy /api/* to an external backend when one is configured.
-    // Without this guard, an undefined NEXT_PUBLIC_API_URL produces an
-    // invalid rewrite destination and crashes the dev/build server.
-    if (!process.env.NEXT_PUBLIC_API_URL) {
-      return [];
-    }
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'none'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self' data:",
+  "connect-src 'self' https://vitals.vercel-insights.com",
+  "form-action 'self' mailto:",
+  "worker-src 'self' blob:",
+].join("; ");
 
-    return {
-      beforeFiles: [
-        {
-          source: "/api/:path*",
-          destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
-        },
-      ],
-    };
+const nextConfig: NextConfig = {
+    async headers() {
+    const securityHeaders = [
+      { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "X-Frame-Options", value: "DENY" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+      { key: "Content-Security-Policy", value: contentSecurityPolicy },
+    ];
+
+    return [
+      {
+        source: "/(.*)",
+        headers: securityHeaders,
+      },
+      {
+        source: "/_next/static/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+    ];
   },
 };
 
-export default config;
+export default nextConfig;
+

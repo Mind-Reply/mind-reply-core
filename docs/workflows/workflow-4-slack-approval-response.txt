@@ -1,0 +1,20 @@
+﻿WORKFLOW 4 — MR — Slack Approval Response
+
+Purpose:
+Pause for human approval in Slack, then continue on approve/reject.
+
+Nodes:
+1. Trigger: Webhook or parent workflow
+2. Set: title, summary, source, next action
+3. Slack: Send and Wait for Response
+4. IF: response contains approve / reject
+5A. Approve branch: write/move item to clean-mindreply-content\approved
+5B. Reject branch: write/move item to clean-mindreply-content\rejected
+6. Optional: Send Email fallback
+
+Output:
+- approved item moves forward to publish workflow
+- rejected item is retained with notes
+
+Signature:
+MRproduction
