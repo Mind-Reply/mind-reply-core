@@ -4,20 +4,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { href: '/cockpit', label: 'Dashboard' },
   { href: '/cockpit/chat', label: 'Chat' },
-  { href: '/cockpit/repos', label: 'Repos' },
   { href: '/cockpit/brands', label: 'Brands' },
-  { href: '/cockpit/sites', label: 'Sites' },
-  { href: '/cockpit/deployments', label: 'Deployments' },
-  { href: '/cockpit/live-checks', label: 'Live Checks' },
-  { href: '/cockpit/blockers', label: 'Blockers' },
-  { href: '/cockpit/evidence', label: 'Evidence' },
-  { href: '/cockpit/agents', label: 'Agents' },
-  { href: '/cockpit/workflows', label: 'Workflows' },
-  { href: '/cockpit/social-ads', label: 'Social / Ads' },
-  { href: '/cockpit/legal', label: 'Legal' },
-  { href: '/cockpit/memory', label: 'Memory' },
+  { href: '/cockpit/design-preview', label: 'Design' },
   { href: '/cockpit/settings', label: 'Settings' },
 ];
 
@@ -26,9 +15,10 @@ export function CockpitNav() {
 
   return (
     <nav
+      aria-label="Command Center navigation"
       style={{
         display: 'flex',
-        gap: 6,
+        gap: 7,
         overflowX: 'auto',
         padding: '10px 16px',
         borderBottom: '1px solid #1f2430',
@@ -39,19 +29,19 @@ export function CockpitNav() {
       }}
     >
       {links.map((link) => {
-        const active = pathname === link.href;
+        const active = pathname === link.href || (link.href === '/cockpit/chat' && pathname === '/cockpit');
         return (
           <Link
             key={link.href}
             href={link.href}
             style={{
-              color: active ? '#0a0c10' : '#8a91a3',
-              background: active ? '#5eead4' : 'transparent',
-              border: '1px solid ' + (active ? '#5eead4' : '#1f2430'),
+              color: active ? '#081318' : '#a4adbf',
+              background: active ? '#64e8d1' : 'transparent',
+              border: `1px solid ${active ? '#64e8d1' : '#293142'}`,
               borderRadius: 999,
-              padding: '5px 12px',
+              padding: '6px 13px',
               fontSize: 12,
-              fontWeight: 600,
+              fontWeight: 700,
               textDecoration: 'none',
               whiteSpace: 'nowrap',
             }}
