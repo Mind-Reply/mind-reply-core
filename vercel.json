@@ -1,10 +1,10 @@
 {
-  "version": 2,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "installCommand": "pnpm install --prefer-offline --no-frozen-lockfile",
   "buildCommand": "pnpm build",
-  "installCommand": "pnpm install",
-  "outputDirectory": "dist",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
+  "git": {
+    "deploymentEnabled": true
+  },
+  "ignoreCommand": "node scripts/vercel-ignore-build.mjs"
 }

@@ -2,7 +2,7 @@ import 'server-only'
 
 import Stripe from 'stripe'
 
-export const STRIPE_API_VERSION = '2025-02-24.acacia' as const;
+export const STRIPE_API_VERSION = '2026-06-24.dahlia';
 
 let _stripe: Stripe | undefined;
 
@@ -17,5 +17,6 @@ export function getStripe(): Stripe {
   }
   return _stripe;
 }
+
 
 

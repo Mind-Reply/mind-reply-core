@@ -1,28 +1,38 @@
+# dependencies
+node_modules/
+/.pnp
+.pnp.*
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# env
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-server*.log
+preview-server*.log
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+
+
+# env
 .env
 .env.*
 !.env.example
-*.pem
-*.key
-*.p12
-*.pfx
-*.crt
-*.cer
-state.json
-*.sqlite
-*.db
-*.log
-logs/
-tmp/
-temp/
-node_modules/
-.next/
-dist/
-build/
-coverage/
-.pytest_cache/
-__pycache__/
-*.pyc
-.venv/
-venv/
-guardian-report.md
-guardian-report.json

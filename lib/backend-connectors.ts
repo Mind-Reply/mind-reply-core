@@ -1,35 +1,52 @@
-import { Pool } from "pg";
-import { anthropic } from "./clients/anthropic";
-import { gmail, youtube, youtubeAnalytics } from "./clients/google";
-import { getStripe } from "./stripe";
+import type { Pool as PoolType } from "pg";
 
-const db = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+let _db: PoolType | null = null;
+function getDb() {
+  if (!_db) {
+    const { Pool } = require("pg");
+    _db = new Pool({
+      connectionString: process.env.DATABASE_URL,
+    });
+  }
+  return _db;
+}
 
-// ============================================
-// STRIPE CONNECTOR - FULL INTEGRATION
-// ============================================
+async function _getStripe() {
+  const { getStripe } = await import("./stripe");
+  return getStripe();
+}
+
+async function _getGmail() {
+  const { gmail, youtube, youtubeAnalytics } = await import("./clients/google");
+  return { gmail, youtube, youtubeAnalytics };
+}
+
+async function _getAnthropic() {
+  const { anthropic } = await import("./clients/anthropic");
+  return anthropic;
+}
+
 export async function getStripeData() {
   try {
+    const stripe = await _getStripe();
     const [customers, charges, invoices, subscriptions, payouts] =
       await Promise.all([
-        getStripe().customers.list({ limit: 100 }),
-        getStripe().charges.list({ limit: 100 }),
-        getStripe().invoices.list({ limit: 100 }),
-        getStripe().subscriptions.list({ limit: 100 }),
-        getStripe().payouts.list({ limit: 50 }),
+        stripe.customers.list({ limit: 100 }),
+        stripe.charges.list({ limit: 100 }),
+        stripe.invoices.list({ limit: 100 }),
+        stripe.subscriptions.list({ limit: 100 }),
+        stripe.payouts.list({ limit: 50 }),
       ]);
 
-    const totalRevenue = charges.data.reduce((sum, charge) => {
+    const totalRevenue = charges.data.reduce((sum: number, charge: any) => {
       return sum + (charge.paid ? charge.amount : 0);
     }, 0);
 
     const activeCustomers = customers.data.filter(
-      (c) => c.subscriptions?.data?.length! > 0
+      (c: any) => c.subscriptions?.data?.length! > 0
     ).length;
 
-    const recurringRevenue = subscriptions.data.reduce((sum, sub) => {
+    const recurringRevenue = subscriptions.data.reduce((sum: number, sub: any) => {
       const price =
         typeof sub.items.data[0].price.unit_amount === "number"
           ? sub.items.data[0].price.unit_amount
@@ -63,11 +80,9 @@ export async function getStripeData() {
   }
 }
 
-// ============================================
-// GMAIL CONNECTOR - FULL INTEGRATION
-// ============================================
 export async function getGmailData() {
   try {
+    const { gmail } = await _getGmail();
     const [unreadMessages, allMessages, threads] = await Promise.all([
       gmail.users.messages.list({
         userId: "me",
@@ -86,10 +101,9 @@ export async function getGmailData() {
 
     const labels = await gmail.users.labels.list({ userId: "me" });
 
-    // Get message details for recent emails
     const recentMessageIds = allMessages.data.messages?.slice(0, 5) || [];
     const recentMessages = await Promise.all(
-      recentMessageIds.map((msg) =>
+      recentMessageIds.map((msg: any) =>
         gmail.users.messages.get({
           userId: "me",
           id: msg.id!,
@@ -120,11 +134,9 @@ export async function getGmailData() {
   }
 }
 
-// ============================================
-// YOUTUBE CONNECTOR - FULL INTEGRATION
-// ============================================
 export async function getYoutubeData() {
   try {
+    const { youtube, youtubeAnalytics } = await _getGmail();
     const [channels, videos, analytics] = await Promise.all([
       youtube.channels.list({
         part: ["statistics", "snippet", "contentDetails"],
@@ -175,26 +187,17 @@ export async function getYoutubeData() {
   }
 }
 
-// ============================================
-// CLAUDE AI CONNECTOR - FULL INTEGRATION
-// ============================================
 export async function processWithClaude(message: string, context: any) {
   try {
+    const anthropic = await _getAnthropic();
     const response = await anthropic.messages.create({
       model: "claude-3-5-sonnet-20241022",
       max_tokens: 4096,
-      system: `You are an advanced business intelligence assistant with access to:
-- Stripe payment data (revenue, customers, subscriptions)
-- Gmail communications (emails, threads)
-- YouTube analytics (subscribers, views, watch time)
-- Database records (users, transactions)
-- Real-time metrics
-
-Provide detailed, actionable insights. You have no limitations on data scope.`,
+      system: "You are an advanced business intelligence assistant.",
       messages: [
         {
           role: "user",
-          content: `${message}\n\nAvailable context:\n${JSON.stringify(context, null, 2)}`,
+          content: message + "\n\nAvailable context:\n" + JSON.stringify(context, null, 2),
         },
       ],
     });
@@ -211,11 +214,9 @@ Provide detailed, actionable insights. You have no limitations on data scope.`,
   }
 }
 
-// ============================================
-// DATABASE CONNECTOR - FULL INTEGRATION
-// ============================================
 export async function getDatabaseMetrics() {
   try {
+    const db = getDb(); if (!db) return { status: "error", error: "Database not configured" };
     const userStats = await db.query(
       "SELECT COUNT(*) as total, COUNT(CASE WHEN created_at > NOW() - INTERVAL '30 days' THEN 1 END) as new_30d FROM users"
     );
@@ -240,9 +241,6 @@ export async function getDatabaseMetrics() {
   }
 }
 
-// ============================================
-// UNIFIED API - ALL CONNECTORS COMBINED
-// ============================================
 export async function getAllData() {
   const [stripe, gmail, youtube, claude, db_metrics] = await Promise.all([
     getStripeData(),
