@@ -284,10 +284,10 @@ export default function Home() {
               Website buying-friction rescue
             </div>
             <h1 className="mt-7 max-w-3xl font-serif text-5xl font-bold leading-[0.94] md:text-7xl">
-              Reclaim 2+ hours daily within 24 hours.
+              Finish your website. Clear your response overload.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-[#d9e3e7] md:text-lg">
-              Reclaim 2+ hours daily when your page, inbox, or follow-up path is leaking decisions. MindReply turns overloaded pages, replies, and client follow-ups into one ranked action queue or one send-ready message.
+              MindReply helps founders, agencies, and service businesses complete their public site, organize client communication, draft replies, and keep follow-ups moving — with human approval where it matters.
             </p>
             <p className="mt-4 max-w-2xl text-sm font-semibold leading-7 text-[#91d2c8]">
               Start with MRagent. Buy the GBP 600 Website Completion Package when the leak is bigger than one reply.

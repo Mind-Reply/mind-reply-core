@@ -17,11 +17,11 @@ const googleTagId = "G-4TME91CJT5";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "MindReply | Website Completion and Response Overload Rescue",
+    default: "MindReply | Finish Your Website. Clear Your Response Overload.",
     template: "%s | MindReply",
   },
   description:
-    "MindReply turns website buying friction, client follow-up pressure, and response overload into one clear next move, a ranked action queue, privacy-safe assisted close, and visitor-matched multilingual support using Visitor IP country, browser language, and a manual language selector.",
+    "MindReply helps founders, agencies, and service businesses complete their public site, organize client communication, draft replies, and keep follow-ups moving — with human approval where it matters.",
   alternates: {
     canonical: "/",
     languages: localeAlternates(siteUrl, "/"),
@@ -78,8 +78,8 @@ export const metadata: Metadata = {
   ],
   category: "Business Communication",
   openGraph: {
-    title: "MindReply | Website Completion and Response Overload Rescue",
-    description: "Turn buying friction, client follow-up pressure, and response overload into one clear next move.",
+    title: "MindReply | Finish Your Website. Clear Your Response Overload.",
+    description: "MindReply helps founders, agencies, and service businesses complete their public site, organize client communication, draft replies, and keep follow-ups moving — with human approval where it matters.",
     url: "/",
     siteName: "MindReply",
     type: "website",
@@ -92,14 +92,14 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "MindReply MRagent - website completion and response overload rescue",
+        alt: "MindReply — Finish your website. Clear your response overload.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MindReply | Website Completion and Response Overload Rescue",
-    description: "Pressure in. One clear move out. Website package, action queue, and assisted close.",
+    title: "MindReply | Finish Your Website. Clear Your Response Overload.",
+    description: "Website completion and client-response rescue for busy founders, agencies, and service businesses.",
     images: ["/opengraph-image"],
   },
   other: {

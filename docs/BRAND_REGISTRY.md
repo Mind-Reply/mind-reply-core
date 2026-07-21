@@ -1,21 +1,21 @@
-# Brand Registry
+# BRAND REGISTRY
 
-| Brand | Source | Domain | Framework | Status | Classification |
-|-------|--------|--------|-----------|--------|----------------|
-| MindReply | MRPRODUCTION/mindreply-org | mind-reply.com | Next.js 15 | LIVE VERIFIED | PUBLIC PRODUCT |
-| AUREL | MRPRODUCTION/brands/aurel-org | aurel.mind-reply.com | Next.js | LIVE | PUBLIC PRODUCT |
-| A11-K | Vercel: a11-k-agent | a11k.mind-reply.com | Unknown | LIVE | PUBLIC PRODUCT |
-| Regex Forge | Vercel: regex-forge | regex.mind-reply.com | Unknown | LIVE | PUBLIC PRODUCT |
-| SQL Studio | Vercel: sql-studio | sql.mind-reply.com | Unknown | LIVE | PUBLIC PRODUCT |
-| Code Tutor | Vercel: code-tutor | tutor.mind-reply.com | Unknown | LIVE | PUBLIC PRODUCT |
-| Code Lens | Vercel: code-lens | lens.mind-reply.com | Unknown | LIVE | PUBLIC PRODUCT |
-| SDR Agent | Vercel: sdr-agent | sdr.mind-reply.com | Unknown | LIVE | PUBLIC PRODUCT |
-| L402 Skills | Vercel: l402-skills | l402.mind-reply.com | Unknown | LIVE | PUBLIC PRODUCT |
-| AI Arena | Vercel: ai-arena | ai-arena-wheat-rho.vercel.app | Unknown | LIVE | PUBLIC PRODUCT |
-| Aether-X | Vercel: aether-x | newai-arena.vercel.app | Unknown | LIVE | PUBLIC PRODUCT |
-| Kratos-S | Vercel: kratos-s | kratos-s.vercel.app | Unknown | LIVE | PUBLIC PRODUCT |
-| Owner Hub | MRPRODUCTION/brands/mind-reply | mind-reply-six.vercel.app | Vite | PRIVATE | OWNER/ADMIN TOOL |
-| EchelonNexus | MRPRODUCTION/EchelonNexus | N/A | Unknown | PRIVATE | OWNER/ADMIN TOOL |
-| Control Plane | MRPRODUCTION/control-plane | N/A | Unknown | PRIVATE | OWNER/ADMIN TOOL |
-| Backend Core | MRPRODUCTION/backend-core | N/A | Unknown | PRIVATE | PRIVATE INTERNAL |
-| BRIXO | Not found | N/A | Unknown | UNKNOWN | UNKNOWN |
+| Brand | Source | Framework | Domain | Status | Classification |
+|-------|--------|-----------|--------|--------|----------------|
+| MindReply | mindreply-org | Next.js 15 | www.mind-reply.com | LIVE VERIFIED | PUBLIC PRODUCT |
+| AUREL | aurel (Vercel) | Unknown | aurel.mind-reply.com | LIVE | PUBLIC PRODUCT |
+| BRIXO | Not found | Unknown | Unknown | UNKNOWN | UNKNOWN |
+| A11-K | a11-k-agent (Vercel) | Unknown | a11k.mind-reply.com | LIVE | PUBLIC PRODUCT |
+| Regex Forge | regex-forge (Vercel) | Unknown | regex.mind-reply.com | LIVE | PUBLIC PRODUCT |
+| SDR Agent | sdr-agent (Vercel) | Unknown | sdr.mind-reply.com | LIVE | PUBLIC PRODUCT |
+| SQL Studio | sql-studio (Vercel) | Unknown | sql.mind-reply.com | LIVE | PUBLIC PRODUCT |
+| Code Tutor | code-tutor (Vercel) | Unknown | tutor.mind-reply.com | LIVE | PUBLIC PRODUCT |
+| Code Lens | code-lens (Vercel) | Unknown | lens.mind-reply.com | LIVE | PUBLIC PRODUCT |
+| L402 Skills | l402-skills (Vercel) | Unknown | l402.mind-reply.com | LIVE | PUBLIC PRODUCT |
+| Aether-X | aether-x (Vercel) | Unknown | newai-arena.vercel.app | LIVE | PUBLIC PRODUCT |
+| Kratos-S | kratos-s (Vercel) | Unknown | kratos-s.vercel.app | LIVE | PUBLIC PRODUCT |
+| AI Arena | ai-arena (Vercel) | Unknown | ai-arena-wheat-rho.vercel.app | LIVE | PUBLIC PRODUCT |
+| Owner Hub | brands/mind-reply | Vite | mind-reply-six.vercel.app | PRIVATE ONLY | OWNER/ADMIN TOOL |
+| Designer | designer (Vercel) | Unknown | designer-*.vercel.app | UNKNOWN | STALE/ARCHIVE |
+| MoreOfIt | moreofit (Vercel) | Unknown | moreofit-*.vercel.app | UNKNOWN | STALE/ARCHIVE |
+| ~28 duplicates | Various Vercel | Various | Various | BUILD FAILING | STALE/ARCHIVE |
