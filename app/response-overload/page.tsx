@@ -29,7 +29,7 @@ const painSignals = [
   "Client replies are taking too long because every answer needs judgement.",
   "The team has urgent messages, objections, and follow-ups but no clear order.",
   "The website or offer asks people to trust you before the buying path is clear.",
-  "Sensitive wording needs restraint, not generic AI polish.",
+  "Sensitive wording needs restraint, not generic polish.",
 ];
 
 const conversionPath = [

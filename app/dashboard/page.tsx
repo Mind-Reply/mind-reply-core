@@ -204,7 +204,7 @@ export default function Dashboard() {
             <IntegrationStatus name="Stripe" connected={!!data?.stripe} />
             <IntegrationStatus name="Gmail" connected={!!data?.gmail} />
             <IntegrationStatus name="YouTube" connected={!!data?.youtube} />
-            <IntegrationStatus name="Claude AI" connected={true} />
+            <IntegrationStatus name="Claude" connected={true} />
           </div>
         </div>
       </main>
